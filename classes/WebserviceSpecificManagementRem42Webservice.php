@@ -1,14 +1,20 @@
 <?php
 
-$require = [
-	'WebserviceReturn.php',
-	'order/Rem42WebserviceOrder.php',
-	'order/Rem42WebserviceInvoice.php',
-];
-
-foreach ($require as $item) {
-	require_once $item;
+function load_webservice_class($class)
+{
+	if (file_exists(__DIR__ . '/' . $class . '.php') !== false) {
+		require_once __DIR__ . '/' . $class . '.php';
+	} else {
+		foreach (glob(__DIR__ . '/*', GLOB_ONLYDIR) as $dir) {
+			if (file_exists($dir . '/' . $class . '.php') !== false) {
+				require_once $dir . '/' . $class . '.php';
+				break;
+			}
+		}
+	}
 }
+
+spl_autoload_register('load_webservice_class');
 
 class WebserviceSpecificManagementRem42Webservice implements WebserviceSpecificManagementInterface
 {
@@ -24,10 +30,10 @@ class WebserviceSpecificManagementRem42Webservice implements WebserviceSpecificM
 
 	/**
 	 * @var array the webservices options
-	 *            'get' => 'true', 'put' => 'true', 'post' => 'false', 'delete' => 'false', 'head' => 'true',
 	 */
 	protected $wsOptions = [
-		'orders',
+		'orders' => Rem42WebserviceOrder::class,
+		'socolissimo' => Rem42WebserviceSocolissimo::class,
 	];
 
 	public function setObjectOutput(WebserviceOutputBuilderCore $obj)
@@ -54,8 +60,6 @@ class WebserviceSpecificManagementRem42Webservice implements WebserviceSpecificM
 
 	/**
 	 * @return bool
-	 * @throws PrestaShopDatabaseException
-	 * @throws PrestaShopException
 	 */
 	public function manage()
 	{
@@ -65,9 +69,7 @@ class WebserviceSpecificManagementRem42Webservice implements WebserviceSpecificM
 	}
 
 	/**
-	 * @return bool
-	 * @throws PrestaShopDatabaseException
-	 * @throws PrestaShopException
+	 *
 	 */
 	protected function manageWebservices()
 	{
@@ -79,36 +81,38 @@ class WebserviceSpecificManagementRem42Webservice implements WebserviceSpecificM
 			}
 		}
 
-		$firstLevel = [
-			'orders' => Rem42WebserviceOrder::class,
-		];
-		if (isset($firstLevel[$this->input->urlSegment[1]])) {
-			$this->webserviceReturn = $firstLevel[$this->input->urlSegment[1]]::load($this->input, $this->output);
+		if (isset($this->wsOptions[$this->input->urlSegment[1]])) {
+			$this->webserviceReturn = $this->wsOptions[$this->input->urlSegment[1]]::load($this->input, $this->output);
 		} elseif (strlen($this->input->urlSegment[1]) == 0) {
-			$this->webserviceReturn->string .= $this->output->getObjectRender()->renderNodeHeader('rem42_webservices', []);
-			foreach ($this->wsOptions as $wsOptions) {
-				$more_attr            = [
+			$this->webserviceReturn->isString = true;
+			$this->webserviceReturn->string   .= $this->output->getObjectRender()
+				->renderNodeHeader('rem42_webservices', [])
+			;
+			foreach ($this->wsOptions as $wsOptions => $value) {
+				$more_attr                      = [
 					'xlink_resource' => $this->input->wsUrl . $this->input->urlSegment[0] . '/' . $wsOptions,
 				];
 				$this->webserviceReturn->string .= $this->output->getObjectRender()
 					->renderNodeHeader($wsOptions, [], $more_attr, false)
 				;
 			}
-			$this->webserviceReturn->string .= $this->output->getObjectRender()->renderNodeFooter('rem42_webservices', []);
+			$this->webserviceReturn->string .= $this->output->getObjectRender()
+				->renderNodeFooter('rem42_webservices', [])
+			;
 		} else {
 			$this->input->setError(404, "Method unknown", 1);
 		}
 	}
 
 	/**
-	 * @return array
+	 * @return array|mixed
 	 * @throws WebserviceException
 	 */
 	public function getContent()
 	{
 		if ($this->webserviceReturn->isString) {
 			return $this->output->getObjectRender()->overrideContent($this->webserviceReturn->string);
-		}elseif ($this->webserviceReturn->contentType != ''){
+		} elseif ($this->webserviceReturn->contentType != '') {
 			$this->output->setHeaderParams('Content-Type', $this->webserviceReturn->contentType);
 			return $this->webserviceReturn->data;
 		}

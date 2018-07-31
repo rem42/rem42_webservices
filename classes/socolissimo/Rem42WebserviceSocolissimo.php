@@ -1,6 +1,6 @@
 <?php
 
-class Rem42WebserviceOrder
+class Rem42WebserviceSocolissimo
 {
 	/**
 	 * @var WebserviceRequest
@@ -19,8 +19,7 @@ class Rem42WebserviceOrder
 	 * @var array the webservices options
 	 */
 	protected $wsOptions = [
-		'invoices' => Rem42WebserviceInvoice::class,
-		'slip' => Rem42WebserviceInvoice::class,
+		'delivery_info' => Rem42WebserviceSocolissimoDeliveryInfo::class,
 	];
 
 	/**
