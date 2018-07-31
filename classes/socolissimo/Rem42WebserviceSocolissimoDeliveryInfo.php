@@ -78,14 +78,16 @@ class Rem42WebserviceSocolissimoDeliveryInfo
 			if (isset($this->filter['id_order']) && $this->filter['id_order'] > 0) {
 				$order        = new Order($this->filter['id_order']);
 				$deliveryInfo = new WsSoFlexibiliteDelivery($order->id_cart, $order->id_customer);
-				$deliveryInfo->id_order = $this->filter['id_order'];
 			}elseif(isset($this->filter['id_cart']) && $this->filter['id_cart'] > 0 && isset($this->filter['id_customer']) && $this->filter['id_customer'] > 0){
+				$order = Order::getByCartId($this->filter['id_cart']);
 				$deliveryInfo = new WsSoFlexibiliteDelivery($this->filter['id_cart'], $this->filter['id_customer']);
 			}else{
 				$this->input->setError(400, 'Error on filter, you must fill id_order or (id_cart and id_customer)', 2);
 				return $this->webserviceReturn;
 			}
 			$deliveryInfo->loadDelivery();
+			$deliveryInfo->id = $order->id;
+			$deliveryInfo->id_order = $order->id;
 			$this->output->setFieldsToDisplay('full');
 			$this->webserviceReturn->isString = true;
 			$this->webserviceReturn->string   .= $this->output->renderEntity($deliveryInfo, 0);

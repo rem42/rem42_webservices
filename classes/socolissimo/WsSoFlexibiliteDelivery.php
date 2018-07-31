@@ -6,7 +6,7 @@ class WsSoFlexibiliteDelivery extends SoFlexibiliteDelivery
 	{
 		$webserviceParameters = [
 			'table' => 'socolissimo_delivery_info',
-			'primary' => 'id',
+			'primary' => 'id_order',
 			'objectsNodeName' => 'delivery_infos',
 			'objectNodeName' => 'delivery_info',
 			'fields' => [
