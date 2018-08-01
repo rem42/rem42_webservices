@@ -19,7 +19,7 @@ class Rem42WebserviceSocolissimo
 	 * @var array the webservices options
 	 */
 	protected $wsOptions = [
-		'delivery_info' => Rem42WebserviceSocolissimoDeliveryInfo::class,
+		'delivery_infos' => Rem42WebserviceSocolissimoDeliveryInfo::class,
 	];
 
 	/**
