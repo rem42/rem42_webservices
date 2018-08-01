@@ -116,6 +116,12 @@ class Rem42WebserviceSocolissimoDeliveryInfo
 				}
 			}
 		}
+		if(isset($this->input->urlSegment[3]) && $this->input->urlSegment[3] > 0){
+			$this->filter['id_order'] = [$this->input->urlSegment[3]];
+			if(!isset($this->input->urlFragments['display'])){
+				$this->input->urlFragments['display'] = 'full';
+			}
+		}
 		$this->input->resourceConfiguration = WsSoFlexibiliteDelivery::$webserviceParameters;
 		$this->input->setFieldsToDisplay();
 		$this->output->setFieldsToDisplay($this->input->fieldsToDisplay);
