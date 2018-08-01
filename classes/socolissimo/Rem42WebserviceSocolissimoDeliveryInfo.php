@@ -75,24 +75,30 @@ class Rem42WebserviceSocolissimoDeliveryInfo
 	{
 		$this->manageFilters();
 		if (sizeof($this->filter) > 0) {
-			if (isset($this->filter['id_order']) && $this->filter['id_order'] > 0) {
-				$order        = new Order($this->filter['id_order']);
-				$deliveryInfo = new WsSoFlexibiliteDelivery($order->id_cart, $order->id_customer);
-			}elseif(isset($this->filter['id_cart']) && $this->filter['id_cart'] > 0 && isset($this->filter['id_customer']) && $this->filter['id_customer'] > 0){
-				$order = Order::getByCartId($this->filter['id_cart']);
-				$deliveryInfo = new WsSoFlexibiliteDelivery($this->filter['id_cart'], $this->filter['id_customer']);
-			}else{
+			$this->webserviceReturn->isString = true;
+			if (isset($this->filter['id_order']) && sizeof($this->filter['id_order']) > 0) {
+				$depth = 0;
+				if (sizeof($this->filter['id_order']) > 1) {
+					$this->webserviceReturn->string .= $this->output->setIndent($depth) . $this->output->getObjectRender()
+							->renderNodeHeader(WsSoFlexibiliteDelivery::$webserviceParameters['objectsNodeName'], WsSoFlexibiliteDelivery::$webserviceParameters)
+					;
+				}
+				foreach ($this->filter['id_order'] as $idOrder) {
+					$this->renderEntity($idOrder, null, $depth);
+				}
+				if (sizeof($this->filter['id_order']) > 1) {
+					$this->webserviceReturn->string .= $this->output->setIndent($depth) . $this->output->getObjectRender()
+							->renderNodeFooter(WsSoFlexibiliteDelivery::$webserviceParameters['objectsNodeName'], WsSoFlexibiliteDelivery::$webserviceParameters)
+					;
+				}
+			} elseif (isset($this->filter['id_cart']) && $this->filter['id_cart'] > 0 && isset($this->filter['id_customer']) && $this->filter['id_customer'] > 0) {
+				$this->renderEntity(null, $this->filter['id_cart']);
+			} else {
 				$this->input->setError(400, 'Error on filter, you must fill id_order or (id_cart and id_customer)', 2);
 				return $this->webserviceReturn;
 			}
-			$deliveryInfo->loadDelivery();
-			$deliveryInfo->id = $order->id;
-			$deliveryInfo->id_order = $order->id;
-			$this->output->setFieldsToDisplay('full');
-			$this->webserviceReturn->isString = true;
-			$this->webserviceReturn->string   .= $this->output->renderEntity($deliveryInfo, 0);
 		} else {
-			$this->input->setError(400, 'Error on filter, you must fill id_order or (id_cart and id_customer)', 3);
+			$this->input->setError(400, 'Error on filter, you must fill id_order or id_cart', 3);
 		}
 		return $this->webserviceReturn;
 	}
@@ -102,11 +108,35 @@ class Rem42WebserviceSocolissimoDeliveryInfo
 		if (isset($this->input->urlFragments["filter"])) {
 			foreach ($this->input->urlFragments["filter"] as $urlFragment => $value) {
 				if (in_array($urlFragment, $this->validFilter)) {
+					$value                      = str_replace(['[', ']'], '', $value);
+					$value                      = explode('|', $value);
 					$this->filter[$urlFragment] = $value;
 				} else {
 					$this->input->setErrorDidYouMean(400, 'This filter does not exist for this linked table', $urlFragment, $this->validFilter, 1);
 				}
 			}
+		}
+		$this->input->resourceConfiguration = WsSoFlexibiliteDelivery::$webserviceParameters;
+		$this->input->setFieldsToDisplay();
+		$this->output->setFieldsToDisplay($this->input->fieldsToDisplay);
+	}
+
+	protected function renderEntity($idOrder = null, $idCart = null, $depth = null)
+	{
+		if ($idOrder) {
+			$order = new Order($idOrder);
+		} else {
+			$order = Order::getByCartId($idCart);
+		}
+		$deliveryInfo = new WsSoFlexibiliteDelivery($order->id_cart, $order->id_customer);
+		$deliveryInfo->loadDelivery();
+		$deliveryInfo->id       = $order->id;
+		$deliveryInfo->id_order = $order->id;
+
+		if ($this->input->fieldsToDisplay === 'minimum') {
+			$this->webserviceReturn->string .= $this->output->renderEntityMinimum($deliveryInfo, $depth);
+		} else {
+			$this->webserviceReturn->string .= $this->output->renderEntity($deliveryInfo, $depth);
 		}
 	}
 }
