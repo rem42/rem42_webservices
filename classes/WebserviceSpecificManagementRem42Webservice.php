@@ -34,6 +34,7 @@ class WebserviceSpecificManagementRem42Webservice implements WebserviceSpecificM
 	protected $wsOptions = [
 		'orders' => Rem42WebserviceOrder::class,
 		'socolissimo' => Rem42WebserviceSocolissimo::class,
+		'stock_available' => Rem42WebserviceStockAvailable::class,
 	];
 
 	public function setObjectOutput(WebserviceOutputBuilderCore $obj)

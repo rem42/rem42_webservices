@@ -70,6 +70,8 @@ class Rem42WebserviceSocolissimoDeliveryInfo
 
 	/**
 	 * @return WebserviceReturn
+	 * @throws PrestaShopDatabaseException
+	 * @throws PrestaShopException
 	 */
 	public function execute()
 	{
@@ -127,6 +129,14 @@ class Rem42WebserviceSocolissimoDeliveryInfo
 		$this->output->setFieldsToDisplay($this->input->fieldsToDisplay);
 	}
 
+	/**
+	 * @param null $idOrder
+	 * @param null $idCart
+	 * @param null $depth
+	 *
+	 * @throws PrestaShopDatabaseException
+	 * @throws PrestaShopException
+	 */
 	protected function renderEntity($idOrder = null, $idCart = null, $depth = null)
 	{
 		if ($idOrder) {

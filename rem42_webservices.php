@@ -84,7 +84,7 @@ class Rem42_webservices extends Module
 		return $output;
 	}
 
-	public function hookAddWebserviceResources()
+	public function hookAddWebserviceResources(array $resources)
 	{
 		$resources = [];
 
