@@ -76,7 +76,7 @@ class Rem42WebserviceSocolissimoDeliveryInfo
 	public function execute()
 	{
 		$this->manageFilters();
-		if (sizeof($this->filter) > 0) {
+		if (null !== $this->filter && sizeof($this->filter) > 0) {
 			$this->webserviceReturn->isString = true;
 			if (isset($this->filter['id_order']) && sizeof($this->filter['id_order']) > 0) {
 				$depth = 0;
@@ -146,7 +146,7 @@ class Rem42WebserviceSocolissimoDeliveryInfo
 		}
 		$deliveryInfo = new WsSoFlexibiliteDelivery($order->id_cart, $order->id_customer);
 		$deliveryInfo->loadDelivery();
-		$deliveryInfo->id       = $order->id;
+		$deliveryInfo->id       = $order->id_address_delivery;
 		$deliveryInfo->id_order = $order->id;
 
 		if ($this->input->fieldsToDisplay === 'minimum') {
