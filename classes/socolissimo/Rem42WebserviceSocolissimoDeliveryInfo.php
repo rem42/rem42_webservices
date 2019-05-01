@@ -145,14 +145,16 @@ class Rem42WebserviceSocolissimoDeliveryInfo
 			$order = Order::getByCartId($idCart);
 		}
 		$deliveryInfo = new WsSoFlexibiliteDelivery($order->id_cart, $order->id_customer);
-		$deliveryInfo->loadDelivery();
-		$deliveryInfo->id       = $order->id_address_delivery;
-		$deliveryInfo->id_order = $order->id;
+		$success = $deliveryInfo->loadDelivery();
+		if($success) {
+            $deliveryInfo->id       = $order->id_address_delivery;
+            $deliveryInfo->id_order = $order->id;
 
-		if ($this->input->fieldsToDisplay === 'minimum') {
-			$this->webserviceReturn->string .= $this->output->renderEntityMinimum($deliveryInfo, $depth);
-		} else {
-			$this->webserviceReturn->string .= $this->output->renderEntity($deliveryInfo, $depth);
-		}
+            if ($this->input->fieldsToDisplay === 'minimum') {
+                $this->webserviceReturn->string .= $this->output->renderEntityMinimum($deliveryInfo, $depth);
+            } else {
+                $this->webserviceReturn->string .= $this->output->renderEntity($deliveryInfo, $depth);
+            }
+        }
 	}
 }
