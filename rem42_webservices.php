@@ -4,7 +4,7 @@ if (!defined('_PS_VERSION_')) {
 	exit;
 }
 
-require_once '/classes/WebserviceSpecificManagementRem42Webservice.php';
+require_once 'classes/WebserviceSpecificManagementRem42Webservice.php';
 
 class Rem42_webservices extends Module
 {
