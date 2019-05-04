@@ -65,6 +65,11 @@ class Rem42WebserviceSocolissimoDeliveryInfo
 	public static function load(WebserviceRequest $input, WebserviceOutputBuilder $output)
 	{
 		$self = new self($input, $output);
+
+        if (!class_exists(SoFlexibiliteDelivery::class)) {
+            throw new WebserviceException('class SoFlexibiliteDelivery not exist', [42,400]);
+        }
+
 		return $self->execute();
 	}
 
