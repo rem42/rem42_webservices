@@ -3,7 +3,7 @@
 	<name>rem42_webservices</name>
 	<displayName><![CDATA[Extends webservices]]></displayName>
 	<version><![CDATA[1.0.0]]></version>
-	<description><![CDATA[Add new missing webservices for prestashop 1.7]]></description>
+	<description><![CDATA[Add new missing webservices for prestashop 1.6 &amp;&amp; 1.7]]></description>
 	<author><![CDATA[rem42]]></author>
 	<tab><![CDATA[others]]></tab>
 	<is_configurable>1</is_configurable>

@@ -26,21 +26,22 @@ class Rem42_webservices extends Module
 		parent::__construct();
 
 		$this->displayName = $this->l('Extends webservices');
-		$this->description = $this->l('Add new missing webservices for prestashop 1.7');
+		$this->description = $this->l('Add new missing webservices for prestashop 1.6 && 1.7');
 
-		$this->ps_versions_compliancy = ['min' => '1.7', 'max' => _PS_VERSION_];
+		$this->ps_versions_compliancy = ['min' => '1.6', 'max' => _PS_VERSION_];
 	}
 
 	/**
 	 * Don't forget to create update methods if needed:
 	 * http://doc.prestashop.com/display/PS16/Enabling+the+Auto-Update
 	 */
-	public function install()
-	{
+    public function install()
+    {
+        return parent::install() &&
+            $this->registerHook('addWebserviceResources');
 
-		return parent::install() &&
-			$this->registerHook('addWebserviceResources');
-	}
+
+    }
 
 	public function uninstall()
 	{
@@ -62,10 +63,14 @@ class Rem42_webservices extends Module
 
 	public function hookAddWebserviceResources(array $resources)
 	{
-		$resources = [];
-
-		$resources['rem42_webservice'] = ['description' => 'Extends Webservices', 'specific_management' => true];
-
-		return $resources;
+		return self::getWebserviceResources();
 	}
+
+	public static function getWebserviceResources() {
+        $resources = [];
+
+        $resources['rem42_webservices'] = ['description' => 'Extends Webservices', 'specific_management' => true];
+
+        return $resources;
+    }
 }
