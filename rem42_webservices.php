@@ -4,7 +4,7 @@ if (!defined('_PS_VERSION_')) {
 	exit;
 }
 
-require_once 'classes/WebserviceSpecificManagementRem42Webservice.php';
+require_once 'classes/WebserviceSpecificManagementRem42Webservices.php';
 
 class Rem42_webservices extends Module
 {
@@ -69,7 +69,7 @@ class Rem42_webservices extends Module
 	public static function getWebserviceResources() {
         $resources = [];
 
-        $resources['rem42_webservices'] = ['description' => 'Extends Webservices', 'specific_management' => true];
+        $resources = ['description' => 'Extends Webservices', 'specific_management' => true, 'class' => 'WebserviceSpecificManagementRem42Webservices'];
 
         return $resources;
     }

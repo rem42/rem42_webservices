@@ -16,7 +16,7 @@ function load_webservice_class($class)
 
 spl_autoload_register('load_webservice_class');
 
-class WebserviceSpecificManagementRem42Webservice implements WebserviceSpecificManagementInterface
+class WebserviceSpecificManagementRem42Webservices implements WebserviceSpecificManagementInterface
 {
 	/** @var WebserviceOutputBuilder */
 	protected $output;
