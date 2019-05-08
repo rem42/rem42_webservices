@@ -24,7 +24,7 @@ class Rem42WebserviceStockAvailable
 	protected $validFilter = ['id_stock_available', 'id_product', 'id_product_attribute'];
 
 	/**
-	 * Rem42WebserviceInvoice constructor.
+	 * Rem42WebserviceStockAvailable constructor.
 	 *
 	 * @param WebserviceRequest       $input
 	 * @param WebserviceOutputBuilder $output

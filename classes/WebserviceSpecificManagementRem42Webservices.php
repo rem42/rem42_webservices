@@ -36,6 +36,7 @@ class WebserviceSpecificManagementRem42Webservices implements WebserviceSpecific
 		'socolissimo' => 'Rem42WebserviceSocolissimo',
 		'colissimo' => 'Rem42WebserviceColissimo',
 		'stock_available' => 'Rem42WebserviceStockAvailable',
+		'stats' => 'Rem42WebserviceStats',
 	];
 
 	public function setObjectOutput(WebserviceOutputBuilderCore $obj)
