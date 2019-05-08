@@ -19,8 +19,8 @@ class Rem42WebserviceOrder
 	 * @var array the webservices options
 	 */
 	protected $wsOptions = [
-		'invoices' => Rem42WebserviceInvoice::class,
-		'slip' => Rem42WebserviceInvoice::class,
+		'invoices' => 'Rem42WebserviceInvoice',
+		'slip' => 'Rem42WebserviceInvoice',
 	];
 
 	/**

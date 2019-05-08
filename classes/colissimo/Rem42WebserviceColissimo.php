@@ -19,7 +19,7 @@ class Rem42WebserviceColissimo
 	 * @var array the webservices options
 	 */
 	protected $wsOptions = [
-		'pickup_points' => Rem42WebserviceColissimoPickupPoint::class,
+		'pickup_points' => 'Rem42WebserviceColissimoPickupPoint',
 	];
 
 	/**

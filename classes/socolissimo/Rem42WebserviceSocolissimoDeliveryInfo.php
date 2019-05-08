@@ -66,7 +66,7 @@ class Rem42WebserviceSocolissimoDeliveryInfo
 	{
 		$self = new self($input, $output);
 
-        if (!class_exists(SoFlexibiliteDelivery::class)) {
+        if (!class_exists('SoFlexibiliteDelivery')) {
             throw new WebserviceException('class SoFlexibiliteDelivery not exist', [42,400]);
         }
 
