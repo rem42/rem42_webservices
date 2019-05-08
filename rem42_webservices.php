@@ -67,9 +67,11 @@ class Rem42_webservices extends Module
 	}
 
 	public static function getWebserviceResources() {
-        $resources = [];
-
-        $resources = ['description' => 'Extends Webservices', 'specific_management' => true, 'class' => 'WebserviceSpecificManagementRem42Webservices'];
+        if(Tools::version_compare(_PS_VERSION_, '1.7', '<')){
+            $resources = ['description' => 'Extends Webservices', 'specific_management' => true];
+        } else {
+            $resources['rem42_webservices'] = ['description' => 'Extends Webservices', 'specific_management' => true];
+        }
 
         return $resources;
     }
