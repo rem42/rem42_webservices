@@ -39,13 +39,10 @@ class Rem42_webservices extends Module
     {
         return parent::install() &&
             $this->registerHook('addWebserviceResources');
-
-
     }
 
 	public function uninstall()
 	{
-
 		return parent::uninstall();
 	}
 
@@ -63,16 +60,6 @@ class Rem42_webservices extends Module
 
 	public function hookAddWebserviceResources(array $resources)
 	{
-		return self::getWebserviceResources();
+		return ['description' => 'Extends Webservices', 'specific_management' => true];
 	}
-
-	public static function getWebserviceResources() {
-        if(Tools::version_compare(_PS_VERSION_, '1.7', '<')){
-            $resources = ['description' => 'Extends Webservices', 'specific_management' => true];
-        } else {
-            $resources['rem42_webservices'] = ['description' => 'Extends Webservices', 'specific_management' => true];
-        }
-
-        return $resources;
-    }
 }
