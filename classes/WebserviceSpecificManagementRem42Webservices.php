@@ -85,7 +85,8 @@ class WebserviceSpecificManagementRem42Webservices implements WebserviceSpecific
 		}
 
 		if (isset($this->wsOptions[$this->input->urlSegment[1]])) {
-			$this->webserviceReturn = $this->wsOptions[$this->input->urlSegment[1]]::load($this->input, $this->output);
+		  	$valueClass = $this->wsOptions[$this->input->urlSegment[1]];
+			$this->webserviceReturn = $valueClass::load($this->input, $this->output);
 		} elseif (strlen($this->input->urlSegment[1]) == 0) {
 			$this->webserviceReturn->isString = true;
 			$this->webserviceReturn->string   .= $this->output->getObjectRender()
