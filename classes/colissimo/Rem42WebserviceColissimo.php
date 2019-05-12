@@ -57,7 +57,8 @@ class Rem42WebserviceColissimo
 	public function execute()
 	{
 		if (isset($this->wsOptions[$this->input->urlSegment[2]])) {
-			$this->webserviceReturn = $this->wsOptions[$this->input->urlSegment[2]]::load($this->input, $this->output);
+		    	$valueClass = $this->wsOptions[$this->input->urlSegment[2]];
+			$this->webserviceReturn = $valueClass::load($this->input, $this->output);
 		} elseif (strlen($this->input->urlSegment[2]) == 0) {
 			$this->webserviceReturn->isString = true;
 			$this->webserviceReturn->string .= $this->output->getObjectRender()->renderNodeHeader('rem42_webservices', []);
