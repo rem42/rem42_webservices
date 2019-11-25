@@ -39,6 +39,7 @@ class Rem42WebserviceTnt
     protected $wsOptions = [
         'tntofficiel_receiver' => 'Rem42WebserviceTntReceiver',
         'tntofficiel_order' => 'Rem42WebserviceTntOrder',
+        'tntofficiel_cart' => 'Rem42WebserviceTntCart',
     ];
 
     /**
