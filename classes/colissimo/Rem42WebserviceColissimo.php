@@ -20,6 +20,7 @@ class Rem42WebserviceColissimo
 	 */
 	protected $wsOptions = [
 		'pickup_points' => 'Rem42WebserviceColissimoPickupPoint',
+		'tracking_number' => 'Rem42WebserviceColissimoTrackingNumber',
 	];
 
 	/**
