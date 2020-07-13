@@ -14,7 +14,7 @@ class Rem42_webservices extends Module
     {
         $this->name          = 'rem42_webservices';
         $this->tab           = 'others';
-        $this->version       = '1.0.0';
+        $this->version       = '1.1.0';
         $this->author        = 'rem42';
         $this->need_instance = 0;
 
