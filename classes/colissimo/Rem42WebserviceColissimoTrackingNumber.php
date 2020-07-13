@@ -5,7 +5,7 @@
  *
  * @throws Exception
  */
-function load_webservice_class_colissimo($class)
+function load_webservice_class_colissimo_new($class)
 {
     if (is_dir(_PS_MODULE_DIR_ . '/colissimo')) {
         if (file_exists(_PS_MODULE_DIR_ . '/colissimo/classes/' . $class . '.php') !== false) {
@@ -16,7 +16,7 @@ function load_webservice_class_colissimo($class)
     }
 }
 
-spl_autoload_register('load_webservice_class_colissimo');
+spl_autoload_register('load_webservice_class_colissimo_new');
 
 class Rem42WebserviceColissimoTrackingNumber
 {
@@ -66,6 +66,9 @@ class Rem42WebserviceColissimoTrackingNumber
      * @throws PrestaShopException
      */
     public function execute() {
+        if($this->input->getInputXML() === null) {
+            return $this->webserviceReturn;
+        }
         $xml = new SimpleXMLElement($this->input->getInputXML());
         $xmlEntities = $xml->children();
         $attributes = $xmlEntities->children();
