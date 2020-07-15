@@ -50,11 +50,13 @@ class Rem42WebserviceInvoice
 	public function execute()
 	{
 		if ($this->input->urlSegment[3] > 0) {
+            @ini_set('display_errors', 'on');
+            @error_reporting(E_ALL | E_STRICT);
 			$orderInvoice = new OrderInvoice($this->input->urlSegment[3]);
 			$order = new Order((int)$orderInvoice->id_order);
 			$order_invoice_list = $order->getInvoicesCollection();
 			Hook::exec('actionPDFInvoiceRender', array('order_invoice_list' => $order_invoice_list));
-			$pdf = new PDF($order_invoice_list, PDF::TEMPLATE_INVOICE, Context::getContext()->smarty);
+			$pdf = new PDF($order_invoice_list->getFirst(), PDF::TEMPLATE_INVOICE, Context::getContext()->smarty);
 			$pdf->render('I');
 		} else {
 			$orderInvoice         = new OrderInvoice();
